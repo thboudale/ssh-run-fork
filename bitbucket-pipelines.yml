@@ -6,7 +6,7 @@ test: &test
     name: Test
     image: python:3.7
     script:
-    - pip install pytest docker bitbucket_pipes_toolkit
+    - pip install pytest docker[tls] bitbucket_pipes_toolkit
     - pytest test/test.py --junitxml=test-reports/report.xml -v
     services:
     - docker

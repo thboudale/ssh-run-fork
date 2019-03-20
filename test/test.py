@@ -33,7 +33,7 @@ class SshRunPrivateKeyTestCase(PipeTestCase):
 
     def setUp(self):
 
-        self.api_client = docker.APIClient()
+        self.api_client = self.docker_client.api
         self.ssh_key_file_container = self.docker_client.containers.run('test-private-key', detach=True)
       
 
