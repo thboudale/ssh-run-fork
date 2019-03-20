@@ -27,6 +27,8 @@ validate() {
   # : USER=${USER:?'SSH_USER variable missing.'}
   : SSH_USER=${SSH_USER:?'SSH_USER variable missing.'}
   : HOST=${HOST:?'HOST variable missing.'}
+  : MODE=${MODE:?'MODE variable missing.'}
+  : COMMAND${COMMAND:?'COMMAND varialbe missing.'}
 }
 
 setup_ssh_dir() {
@@ -50,8 +52,6 @@ setup_ssh_dir() {
      cp ${IDENTITY_FILE} ~/.ssh/pipelines_id
   fi
 
-  # ssh-add ~/.ssh/pipelines_id
-
   # if [ ! -f ${KNOWN_HOSTS_FILE} ]; then
   #     fail "No SSH known_hosts configured in Pipelines."
   # fi
@@ -70,7 +70,13 @@ DEBUG=${DEBUG:="false"}
 
 run_pipe() {
   info "Starting executing a command on ${SERVER}"
-  run ssh -A -tt -i ~/.ssh/pipelines_id -o 'StrictHostKeyChecking=no' -p ${PORT:-22} root@$HOST "$COMMAND" 
+  if [ $MODE = 'command' ]; then
+    run ssh -A -tt -i ~/.ssh/pipelines_id -o 'StrictHostKeyChecking=no' -p ${PORT:-22} root@$HOST "$COMMAND" 
+  elif [ $MODE = 'script' ]; then
+  	run ssh -i ~/.ssh/pipelines_id -o 'StrictHostKeyChecking=no' -p ${PORT:-22} root@$HOST 'bash -s' < "$COMMAND"
+  else
+  	fail "Invalid MODE, valid values are: command, script"
+  fi
 
   if [[ "${status}" == "0" ]]; then
     success "Deployment finished."

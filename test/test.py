@@ -35,12 +35,7 @@ class SshRunPrivateKeyTestCase(PipeTestCase):
 
         self.api_client = docker.APIClient()
         self.ssh_key_file_container = self.docker_client.containers.run('test-private-key', detach=True)
-
-    def test_success_ssh_key_file(self):
-        pass
-
-
-        
+      
 
     def tearDown(self):
         os.remove(os.path.join(self.dirname, self.ssh_key_file))
@@ -71,6 +66,22 @@ class SshRunPrivateKeyTestCase(PipeTestCase):
 
         assert True
 
+    def test_success_script(self):
+        cwd = os.getcwd()
+        contiainer_ip = self.api_client.inspect_container(self.ssh_key_file_container.id)['NetworkSettings']['IPAddress']
 
-class SshRunPasswordTestCase(PipeTestCase):
-    pass
+        with open('test_script.sh', 'w') as f:
+            f.write('echo Script $HOSTNAME')
+
+
+        result = self.run_container(environment={
+            'SSH_USER': 'root',
+            'HOST': contiainer_ip,
+            'SSH_KEY': os.getenv('SSH_KEY'),
+            'COMMAND': 'test_script.sh',
+            'MODE': 'script'
+            },
+            volumes={cwd: {'bind': cwd, 'mode': 'rw'}},
+            working_dir=cwd)
+        self.assertIn(
+            f'Script {self.ssh_key_file_container.short_id}', result.decode())
