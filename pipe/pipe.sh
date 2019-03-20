@@ -52,11 +52,11 @@ setup_ssh_dir() {
      cp ${IDENTITY_FILE} ~/.ssh/pipelines_id
   fi
 
-  # if [ ! -f ${KNOWN_HOSTS_FILE} ]; then
-  #     fail "No SSH known_hosts configured in Pipelines."
-  # fi
+  if [ ! -f ${KNOWN_HOSTS_FILE} ]; then
+      fail "No SSH known_hosts configured in Pipelines."
+  fi
 
-  # cat ${KNOWN_HOSTS_FILE} >> ~/.ssh/known_hosts
+  cat ${KNOWN_HOSTS_FILE} >> ~/.ssh/known_hosts
 
   if [ -f ~/.ssh/config ]; then
       debug "Appending to existing ~/.ssh/config file"

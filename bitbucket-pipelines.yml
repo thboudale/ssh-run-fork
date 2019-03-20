@@ -4,10 +4,10 @@ image:
 test: &test
   step:
     name: Test
-    image: atlassian/default-image:2
+    image: python:3.7
     script:
-    - npm install -g bats
-    - bats test/test.bats
+    - pip install pytest docker bitbucket_pipes_toolkit
+    - pytest test/test.py --junitxml=test-reports/report.xml -v
     services:
     - docker
 
