@@ -47,7 +47,7 @@ script:
       SERVER: '127.0.0.1'
 ```
 
-Advanced example:
+Advanced example using a different SSH_KEY and executing a bash script on a remote server:
 
 ```yaml
 script:

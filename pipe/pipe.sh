@@ -72,20 +72,20 @@ setup_ssh_dir() {
 DEBUG=${DEBUG:="false"}
 
 run_pipe() {
-  if [ $MODE = 'command' ]; then
-  	info "Starting executing a command on ${SERVER}"
+  if [[ ${MODE} = "command" ]]; then
+  	info "Starting executing a ${MODE} on ${SERVER}"
     run ssh -A -tt -i ~/.ssh/pipelines_id -o 'StrictHostKeyChecking=no' -p ${PORT:-22} $SSH_USER@$SERVER "$COMMAND" 
-  elif [ $MODE = 'script' ]; then
+  elif [[ ${MODE} = "script" ]]; then
   	info "Executing script ${COMMAND} on ${SERVER}"
-  	run ssh -i ~/.ssh/pipelines_id -o 'StrictHostKeyChecking=no' -p ${PORT:-22} $SSH_USER@$SERVER 'bash -s' < "$COMMAND"
+  	run ssh -i ~/.ssh/pipelines_id -o 'StrictHostKeyChecking=no' -p ${PORT:-22} ${EXTRA_ARGS} $SSH_USER@$SERVER 'bash -s' < "$COMMAND"
   else
-  	fail "Invalid MODE, valid values are: command, script"
+  	fail "Invalid MODE ${MODE}, valid values are: command, script"
   fi
 
   if [[ "${status}" == "0" ]]; then
-    success "Deployment finished."
+    success "Exccution finished."
   else
-    fail "Deployment failed."
+    fail "Execution failed."
   fi
 }
 
