@@ -24,7 +24,7 @@ validate() {
   # required parameters
   : SSH_USER=${SSH_USER:?'SSH_USER variable missing.'}
   : HOST=${HOST:?'HOST variable missing.'}
-  : MODE=${MODE:?'MODE variable missing.'}
+  : MODE=${MODE:-command}
   : COMMAND${COMMAND:?'COMMAND varialbe missing.'}
 }
 
