@@ -18,9 +18,9 @@ script:
 
 | Variable              | Usage                                                       |
 | --------------------- | ----------------------------------------------------------- |
-| SSH_USER (*)          | The name that will be printed in the logs |
-| SERVER (*)              | Turn on extra debug information. Default: `false`. |
-| PORT                  | Port SSH is listening on. Default: `22`. |
+| SSH_USER (*)          | SSH username |
+| SERVER (*)              | SSH server host |
+| PORT                  | Port sshd is listening on. Default: `22`. |
 | SSH_KEY               | An alternate SSH_KEY to use instead of the key configured in the Bitbucket Pipelines admin screens (which is used by default). This should be encoded as per the instructions given in the docs for [using multiple ssh keys](https://confluence.atlassian.com/bitbucket/use-ssh-keys-in-bitbucket-pipelines-847452940.html#UseSSHkeysinBitbucketPipelines-multiple_keys) |
 | MODE                  | Mode of execution. This can be either bash `command` or a bash `script`. Default: `command`|
 | COMMAND               | Depending on the `MODE`, this can be a bash command to execute or a bash script name.|
