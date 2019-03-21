@@ -22,7 +22,6 @@ enable_debug
 
 validate() {
   # required parameters
-  # : USER=${USER:?'SSH_USER variable missing.'}
   : SSH_USER=${SSH_USER:?'SSH_USER variable missing.'}
   : HOST=${HOST:?'HOST variable missing.'}
   : MODE=${MODE:?'MODE variable missing.'}
@@ -67,11 +66,12 @@ setup_ssh_dir() {
 DEBUG=${DEBUG:="false"}
 
 run_pipe() {
-  info "Starting executing a command on ${SERVER}"
   if [ $MODE = 'command' ]; then
-    run ssh -A -tt -i ~/.ssh/pipelines_id -o 'StrictHostKeyChecking=no' -p ${PORT:-22} root@$HOST "$COMMAND" 
+  	info "Starting executing a command on ${HOST}"
+    run ssh -A -tt -i ~/.ssh/pipelines_id -o 'StrictHostKeyChecking=no' -p ${PORT:-22} $SSH_USER@$HOST "$COMMAND" 
   elif [ $MODE = 'script' ]; then
-  	run ssh -i ~/.ssh/pipelines_id -o 'StrictHostKeyChecking=no' -p ${PORT:-22} root@$HOST 'bash -s' < "$COMMAND"
+  	info "Executing script ${COMMAND} on ${HOST}"
+  	run ssh -i ~/.ssh/pipelines_id -o 'StrictHostKeyChecking=no' -p ${PORT:-22} $SSH_USER@$HOST 'bash -s' < "$COMMAND"
   else
   	fail "Invalid MODE, valid values are: command, script"
   fi
@@ -83,6 +83,6 @@ run_pipe() {
   fi
 }
 
-setup_ssh_dir
 validate
+setup_ssh_dir
 run_pipe
