@@ -8,9 +8,7 @@
 # Optional globals:
 #   DEBUG (default: "false")
 
-# source "$(dirname "$0")/common.sh"
-
-source <(curl -s https://bitbucket.org/bitbucketpipelines/bitbucket-pipes-toolkit-bash/raw/0.0.0/common.sh)
+source "$(dirname "$0")/common.sh"
 
 info "Executing the pipe..."
 
