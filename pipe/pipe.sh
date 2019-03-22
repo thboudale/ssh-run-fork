@@ -31,7 +31,7 @@ validate() {
   : SSH_USER=${SSH_USER:?'SSH_USER variable missing.'}
   : SERVER=${SERVER:?'SERVER variable missing.'}
   : MODE=${MODE:-command}
-  : COMMAND${COMMAND:?'COMMAND varialbe missing.'}
+  : COMMAND=${COMMAND:?'COMMAND varialbe missing.'}
 }
 
 setup_ssh_dir() {
