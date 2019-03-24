@@ -11,10 +11,6 @@ import pytest
 from docker.errors import ContainerError
 import docker
 
-docker_image = 'bitbucketpipelines/demo-pipe-python:ci' + \
-    os.getenv('BITBUCKET_BUILD_NUMBER', 'local')
-
-
 class SshRunPrivateKeyTestCase(PipeTestCase):
 
     ssh_config_dir = '/opt/atlassian/pipelines/agent/ssh'
@@ -48,7 +44,7 @@ class SshRunPrivateKeyTestCase(PipeTestCase):
                 break
             sleep(1)
         else:
-            raise Ecxeption('Failed to start SSHD')
+            raise Exception('Failed to start SSHD')
 
     def tearDown(self):
         self.ssh_key_file_container.kill()

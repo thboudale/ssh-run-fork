@@ -1,7 +1,7 @@
 name: SSH run
 image: bitbucketpipelines/ssh-run:0.0.0
 description: Run a command or script on your server
-repository: https://bitbucket.org/ssh-run/atlassian
+repository: https://bitbucket.org/atlassian/ssh-run
 maintainer: bitbucketci-team@atlassian.com
 icon: https://bitbucket.org/atlassian/ssh-run/raw/master/logo.svg
 tags:

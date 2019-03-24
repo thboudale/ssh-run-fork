@@ -18,20 +18,13 @@ source "$(dirname "$0")/common.sh"
 
 info "Executing the pipe..."
 
-enable_debug() {
-  if [[ "${DEBUG}" == "true" ]]; then
-    info "Enabling debug mode."
-    set -x
-  fi
-}
-enable_debug
-
 validate() {
   # required parameters
   : SSH_USER=${SSH_USER:?'SSH_USER variable missing.'}
   : SERVER=${SERVER:?'SERVER variable missing.'}
   : MODE=${MODE:-command}
-  : COMMAND=${COMMAND:?'COMMAND varialbe missing.'}
+  : COMMAND=${COMMAND:?'COMMAND variable missing.'}
+  : DEBUG=${DEBUG:="false"}
 }
 
 setup_ssh_dir() {
@@ -45,7 +38,7 @@ setup_ssh_dir() {
   touch ~/.ssh/authorized_keys
 
   # If given, use SSH_KEY, otherwise check if the default is configured and use it
-  if [ "${SSH_KEY}" != "" ]; then
+  if [ -n "${SSH_KEY}" ]; then
      info "Using passed SSH_KEY"
      (umask  077 ; echo ${SSH_KEY} | base64 -d > ~/.ssh/pipelines_id)
   elif [ ! -f ${IDENTITY_FILE} ]; then
@@ -68,12 +61,9 @@ setup_ssh_dir() {
   chmod -R go-rwx ~/.ssh/
 }
 
-# default parameters
-DEBUG=${DEBUG:="false"}
-
 run_pipe() {
   if [[ ${MODE} = "command" ]]; then
-  	info "Starting executing a ${MODE} on ${SERVER}"
+  	info "Executing ${MODE} on ${SERVER}"
     run ssh -A -tt -i ~/.ssh/pipelines_id -o 'StrictHostKeyChecking=no' -p ${PORT:-22} $SSH_USER@$SERVER "$COMMAND" 
   elif [[ ${MODE} = "script" ]]; then
   	info "Executing script ${COMMAND} on ${SERVER}"
@@ -83,12 +73,13 @@ run_pipe() {
   fi
 
   if [[ "${status}" == "0" ]]; then
-    success "Exccution finished."
+    success "Execution finished."
   else
     fail "Execution failed."
   fi
 }
 
 validate
+enable_debug
 setup_ssh_dir
 run_pipe
