@@ -69,7 +69,7 @@ run_pipe() {
   	info "Executing script ${COMMAND} on ${SERVER}"
   	run ssh -i ~/.ssh/pipelines_id -o 'StrictHostKeyChecking=no' -p ${PORT:-22} ${EXTRA_ARGS} $SSH_USER@$SERVER 'bash -s' < "$COMMAND"
   else
-  	fail "Invalid MODE ${MODE}, valid values are: command, script"
+  	fail "Invalid MODE ${MODE}, valid values are: command, script."
   fi
 
   if [[ "${status}" == "0" ]]; then
