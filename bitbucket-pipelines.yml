@@ -1,0 +1,30 @@
+image:
+  name: python:3.7
+
+test: &test
+  step:
+    name: Test
+    script:
+    - pip install pytest docker[tls] bitbucket_pipes_toolkit
+    - pytest test/test.py --junitxml=test-reports/report.xml -v -s
+    services:
+    - docker
+
+push: &push
+  step:
+    name: Push and Tag
+    script:
+    - pip install semversioner==0.6.16
+    - ./ci-scripts/bump-version.sh
+    - ./ci-scripts/docker-release.sh bitbucketpipelines/$BITBUCKET_REPO_SLUG
+    - ./ci-scripts/git-push.sh
+    services:
+    - docker
+
+pipelines:
+  default:
+  - <<: *test
+  branches:
+    master:
+    - <<: *test
+    - <<: *push
