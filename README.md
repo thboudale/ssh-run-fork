@@ -8,7 +8,7 @@ Add the following snippet to the script section of your `bitbucket-pipelines.yml
 
 ```yaml
 script:
-  - pipe: atlassian/ssh-run:0.0.0
+  - pipe: atlassian/ssh-run:0.1.0
     variables:
       SSH_USER: '<string>'
       SERVER: '<string>'
@@ -47,7 +47,7 @@ Basic example:
 
 ```yaml
 script:
-  - pipe: atlassian/ssh-run:0.0.0
+  - pipe: atlassian/ssh-run:0.1.0
     variables:
       SSH_USER: 'ec2-user'
       SERVER: '127.0.0.1'
@@ -58,7 +58,7 @@ Advanced example using a different SSH_KEY and executing a bash script on a remo
 
 ```yaml
 script:
-  - pipe: atlassian/ssh-run:0.0.0
+  - pipe: atlassian/ssh-run:0.1.0
     variables:
       SSH_USER: 'ec2-user'
       SERVER: '127.0.0.1'
