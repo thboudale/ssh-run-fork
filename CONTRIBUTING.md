@@ -72,23 +72,17 @@ Some tests require setting up a development account for the service that a pipe 
 
 To run tests locally you need to:
 
-1. Install pytest
+1. Install `bats` (bash test runner) using apt or any suitable package manager
 
     ```
-    pip install pytest
+    apt-get install bats
     ```
 
-2. Install required deps, including `docker-py` and `bitbucket_pipes_toolkit`
+2. Make sure you've set up all required environment variables required for testing. Usually, these are the same variables that are required for a pipe to run.
 
+3. Run bats
     ```
-    pip install docker[tls] bitbucket_pipes_toolkit
-    ```
-
-3. Make sure you've set up all required environment variables required for testing. Usually, these are the same variables that are required for a pipe to run.
-
-4. Run pytest
-    ```
-    pytest test/test.py -v
+    bats test/test*
     ```
 
 In addition to that, you can manually build and run a docker container to test your changes:
