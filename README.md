@@ -7,17 +7,16 @@ Run a command or a bash script on your server
 Add the following snippet to the script section of your `bitbucket-pipelines.yml` file:
 
 ```yaml
-script:
-  - pipe: atlassian/ssh-run:0.1.1
-    variables:
-      SSH_USER: '<string>'
-      SERVER: '<string>'
-      COMMAND: '<string>'
-      MODE: '<string>' # Optional
-      PORT: '<string>' # Optional
-      SSH_KEY: '<string>' # Optional
-      EXTRA_ARGS: '<string>' # Optional
-      DEBUG: '<string>' # Optional
+- pipe: atlassian/ssh-run:0.1.1
+  variables:
+    SSH_USER: '<string>'
+    SERVER: '<string>'
+    COMMAND: '<string>'
+    MODE: '<string>' # Optional
+    PORT: '<string>' # Optional
+    SSH_KEY: '<string>' # Optional
+    EXTRA_ARGS: '<string>' # Optional
+    DEBUG: '<string>' # Optional
 ```
 
 ## Variables

@@ -1,0 +1,4 @@
+pytest 
+docker[tls] 
+
+bitbucket_pipes_toolkit==0.1.3
