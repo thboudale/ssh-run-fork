@@ -5,7 +5,7 @@ test: &test
   step:
     name: Test
     script:
-    - pip install pytest docker[tls] bitbucket_pipes_toolkit
+    - pip install -r test/requirements.txt
     - pytest test/test.py --junitxml=test-reports/report.xml -v -s
     services:
     - docker
