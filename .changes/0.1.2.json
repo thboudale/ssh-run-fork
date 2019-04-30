@@ -1,0 +1,6 @@
+[
+  {
+    "description": "Update the yaml definition",
+    "type": "patch"
+  }
+]
