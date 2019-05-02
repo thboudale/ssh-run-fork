@@ -22,7 +22,7 @@ validate() {
   # required parameters
   : SSH_USER=${SSH_USER:?'SSH_USER variable missing.'}
   : SERVER=${SERVER:?'SERVER variable missing.'}
-  : MODE=${MODE:-command}
+  : MODE=${MODE:="command"}
   : COMMAND=${COMMAND:?'COMMAND variable missing.'}
   : DEBUG=${DEBUG:="false"}
 }
