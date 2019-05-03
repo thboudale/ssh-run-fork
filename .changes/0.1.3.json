@@ -1,0 +1,6 @@
+[
+  {
+    "description": "Fixed the default value for MODE parameter",
+    "type": "patch"
+  }
+]
