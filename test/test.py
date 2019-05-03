@@ -101,3 +101,24 @@ class SshRunPrivateKeyTestCase(PipeTestCase):
             working_dir=cwd)
         self.assertIn(
             f'Script {self.ssh_key_file_container.short_id}', result.decode())
+
+    def test_success_default_mode(self):
+        cwd = os.getcwd()
+        contiainer_ip = self.api_client.inspect_container(self.ssh_key_file_container.id)['NetworkSettings']['IPAddress']
+
+        with open(os.path.join(os.path.dirname(__file__), 'identity'), 'rb') as identity_file:
+            identity_content = identity_file.read()
+
+        result = self.run_container(environment={
+            'SSH_USER': 'root',
+            'SERVER': contiainer_ip,
+            'SSH_KEY': base64.b64encode(identity_content),
+            'COMMAND': 'echo Hello $(hostname)',
+        },
+            volumes={cwd: {'bind': cwd, 'mode': 'rw'},
+                     self.ssh_config_dir: {'bind': self.ssh_config_dir, 'mode': 'rw'}},
+            working_dir=cwd)
+        self.assertIn(
+            f'Hello {self.ssh_key_file_container.short_id}', result.decode())
+
+
