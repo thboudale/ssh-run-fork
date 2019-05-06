@@ -64,7 +64,6 @@ script:
       SSH_KEY: $MY_SSH_KEY
       MODE: 'script'
       COMMAND: 'myscript.sh' # path to a script in your repository
-
 ```
 
 The following example shows how to execute a bash script that is already on your remote server:
@@ -77,7 +76,6 @@ script:
       SERVER: '127.0.0.1'
       MODE: 'command'
       COMMAND: './remote-script.sh'
-
 ```
 
 ## Support
