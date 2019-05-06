@@ -25,8 +25,8 @@ Add the following snippet to the script section of your `bitbucket-pipelines.yml
 | --------------------- | ----------------------------------------------------------- |
 | SSH_USER (*)          | SSH username. |
 | SERVER (*)              | SSH server host. |
-| COMMAND (*)           | Depending on the `MODE`, this can be a bash command to execute or a bash script name.|
-| MODE                  | Mode of execution. This can be either bash `command` or a bash `script`. Default: `command`.|
+| COMMAND (*)           | Depending on the `MODE`, this can be a bash command to execute or a name of the bash script in your repository. |
+| MODE                  | Mode of execution. This can be either bash `command` or a bash `script`. If set to `script`, the pipe will execute a script from your repository on the remote host. Default: `command`.|
 | PORT                  | Port sshd is listening on. Default: `22`. |
 | SSH_KEY               | An alternate SSH_KEY to use instead of the key configured in the Bitbucket Pipelines admin screens (which is used by default). This should be encoded as per the instructions given in the docs for [using multiple ssh keys](https://confluence.atlassian.com/bitbucket/use-ssh-keys-in-bitbucket-pipelines-847452940.html#UseSSHkeysinBitbucketPipelines-multiple_keys). |
 | EXTRA_ARGS            | Additional arguments passed to the scp command (see [SSH docs](https://linux.die.net/man/1/ssh) for more details). |
@@ -53,7 +53,7 @@ script:
       COMMAND: 'Echo $HOSTNAME'
 ```
 
-Advanced example using a different SSH_KEY and executing a bash script on a remote server:
+Advanced example using a different SSH_KEY and executing a bash script from your repo on a remote server:
 
 ```yaml
 script:
@@ -63,7 +63,20 @@ script:
       SERVER: '127.0.0.1'
       SSH_KEY: $MY_SSH_KEY
       MODE: 'script'
-      COMMAND: 'myscript.sh'
+      COMMAND: 'myscript.sh' # path to a script in your repository
+
+```
+
+The following example shows how to execute a bash script that is already on your remote server:
+
+```yaml
+script:
+  - pipe: atlassian/ssh-run:0.1.3
+    variables:
+      SSH_USER: 'ec2-user'
+      SERVER: '127.0.0.1'
+      MODE: 'command'
+      COMMAND: './remote-script.sh'
 
 ```
 
