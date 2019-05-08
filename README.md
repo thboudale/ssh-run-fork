@@ -25,7 +25,7 @@ Add the following snippet to the script section of your `bitbucket-pipelines.yml
 | --------------------- | ----------------------------------------------------------- |
 | SSH_USER (*)          | SSH username. |
 | SERVER (*)              | SSH server host. |
-| COMMAND (*)           | Depending on the `MODE`, this can be a bash command to execute or a name of the bash script in your repository. |
+| COMMAND (*)           | Depending on the `MODE`, this can be a bash command to execute or the file name of the bash script located in your repository. |
 | MODE                  | Mode of execution. This can be either bash `command` or a bash `script`. If set to `script`, the pipe will execute a script from your repository on the remote host. Default: `command`.|
 | PORT                  | Port sshd is listening on. Default: `22`. |
 | SSH_KEY               | An alternate SSH_KEY to use instead of the key configured in the Bitbucket Pipelines admin screens (which is used by default). This should be encoded as per the instructions given in the docs for [using multiple ssh keys](https://confluence.atlassian.com/bitbucket/use-ssh-keys-in-bitbucket-pipelines-847452940.html#UseSSHkeysinBitbucketPipelines-multiple_keys). |
