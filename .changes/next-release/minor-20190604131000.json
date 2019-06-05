@@ -1,4 +1,0 @@
-{
-  "type": "minor",
-  "description": "Update pipes toolkit version to avoid capturing the output into a variable when using run command. This prevents issues with large /dev/stdout output."
-}

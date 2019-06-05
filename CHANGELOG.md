@@ -1,6 +1,10 @@
 # Changelog
 Note: version releases in the 0.x.y range may introduce breaking changes.
 
+## 0.2.0
+
+- minor: Update pipes toolkit version to avoid capturing the output into a variable when using run command. This prevents issues with large /dev/stdout output.
+
 ## 0.1.4
 
 - patch: Documentation updates
