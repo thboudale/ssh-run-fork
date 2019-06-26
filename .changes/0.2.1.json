@@ -1,0 +1,6 @@
+[
+  {
+    "description": "Refactor pipe code to use pipes bash toolkit.",
+    "type": "patch"
+  }
+]

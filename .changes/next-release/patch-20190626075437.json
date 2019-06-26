@@ -1,4 +1,0 @@
-{
-  "type": "patch",
-  "description": "Refactor pipe code to use pipes bash toolkit."
-}
