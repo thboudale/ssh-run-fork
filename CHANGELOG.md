@@ -1,6 +1,10 @@
 # Changelog
 Note: version releases in the 0.x.y range may introduce breaking changes.
 
+## 0.2.2
+
+- patch: Updated readme about alternative base64 encoded SSH_KEY
+
 ## 0.2.1
 
 - patch: Refactor pipe code to use pipes bash toolkit.
