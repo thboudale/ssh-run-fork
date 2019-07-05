@@ -1,0 +1,4 @@
+{
+  "type": "patch",
+  "description": "Updated readme about alternative base64 encoded SSH_KEY"
+}
