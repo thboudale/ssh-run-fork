@@ -2,13 +2,19 @@ image:
   name: python:3.7
 
 test: &test
-  step:
-    name: Test
-    script:
-    - pip install -r test/requirements.txt
-    - pytest test/test.py --junitxml=test-reports/report.xml -v -s
-    services:
-    - docker
+  parallel:
+    - step:
+        name: Test
+        script:
+        - pip install -r test/requirements.txt
+        - pytest test/test.py --junitxml=test-reports/report.xml -v -s
+        services:
+        - docker
+    - step:
+        name: Lint the Dockerfile
+        image: hadolint/hadolint:latest-debian
+        script:
+          - hadolint Dockerfile
 
 push: &push
   step:
