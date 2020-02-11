@@ -42,7 +42,7 @@ _(*) = required variable._
 
 ## Examples
 
-Basic example:
+### Basic example:
 
 ```yaml
 script:
@@ -50,10 +50,11 @@ script:
     variables:
       SSH_USER: 'ec2-user'
       SERVER: '127.0.0.1'
-      COMMAND: 'Echo $HOSTNAME'
+      COMMAND: 'echo $HOSTNAME'
 ```
 
-Advanced example using a different SSH_KEY and executing a bash script from your repo on a remote server:
+### Advanced example:
+Using a different SSH_KEY and executing a bash script from your repo on a remote server:
 
 ```yaml
 script:
@@ -78,8 +79,36 @@ script:
       COMMAND: './remote-script.sh'
 ```
 
+Passing your local environment variable `$LOCALVAR` to the remote server and executing a bash command `echo ${MYVAR}` on the remote server:
+
+```yaml
+script:
+  - pipe: atlassian/ssh-run:0.2.3
+    variables:
+      SSH_USER: 'ec2-user'
+      SERVER: '127.0.0.1'
+      COMMAND: 'export MYVAR='"'${LOCALVAR}'"'; echo ${MYVAR}'
+```
+Note! Be careful, $LOCALVAR shouldn't contain any single quotes inside.
+
+
+Invocating your local environment variables to the script with [*envsubst*][envsubst] and executing a bash script on the remote server:
+```yaml
+script:
+  - envsubst < .contrib/deploy.sh > deploy-out.sh
+
+  - pipe: atlassian/ssh-run:0.2.3
+    variables:
+      SSH_USER: 'ec2-user'
+      SERVER: '127.0.0.1'
+      MODE: 'script'
+      COMMAND: 'deploy-out.sh'
+```
+Required [*envsubst*][envsubst] package installed in your step.
+
+
 ## Support
-If you’d like help with this pipe, or you have an issue or feature request, [let us know on Community](https://community.atlassian.com/t5/forums/postpage/choose-node/true/interaction-style/qanda?add-tags=bitbucket-pipelines,pipes,ssh).
+If you’d like help with this pipe, or you have an issue or feature request, [let us know on Community][community].
 
 If you’re reporting an issue, please include:
 
@@ -87,6 +116,11 @@ If you’re reporting an issue, please include:
 - relevant logs and error messages
 - steps to reproduce
 
+
 ## License
 Copyright (c) 2018 Atlassian and others.
 Apache 2.0 licensed, see [LICENSE.txt](LICENSE.txt) file.
+
+
+[community]: https://community.atlassian.com/t5/forums/postpage/board-id/bitbucket-pipelines-questions?add-tags=pipes,ssh
+[envsubst]: https://www.gnu.org/software/gettext/manual/html_node/envsubst-Invocation.html
