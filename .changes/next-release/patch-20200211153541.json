@@ -1,4 +1,0 @@
-{
-  "type": "patch",
-  "description": "Update the Readme with examples passing local environment variables to the remote host."
-}

@@ -1,6 +1,10 @@
 # Changelog
 Note: version releases in the 0.x.y range may introduce breaking changes.
 
+## 0.2.4
+
+- patch: Update the Readme with examples passing local environment variables to the remote host.
+
 ## 0.2.3
 
 - patch: Internal maintenance: Add hadolint linter for Dockerfile
