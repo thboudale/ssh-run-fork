@@ -1,6 +1,10 @@
 # Changelog
 Note: version releases in the 0.x.y range may introduce breaking changes.
 
+## 0.2.5
+
+- patch: Internal maintenance: Add gitignore secrets.
+
 ## 0.2.4
 
 - patch: Update the Readme with examples passing local environment variables to the remote host.
