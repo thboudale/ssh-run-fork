@@ -1,5 +1,5 @@
 name: SSH run
-image: bitbucketpipelines/ssh-run:0.2.5
+image: bitbucketpipelines/ssh-run:0.2.6
 description: Run a command or script on your server
 category: Utilities
 repository: https://bitbucket.org/atlassian/ssh-run

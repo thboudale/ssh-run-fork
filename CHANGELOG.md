@@ -1,6 +1,10 @@
 # Changelog
 Note: version releases in the 0.x.y range may introduce breaking changes.
 
+## 0.2.6
+
+- patch: Internal maintenance: change pipe metadata according to new structure
+
 ## 0.2.5
 
 - patch: Internal maintenance: Add gitignore secrets.
