@@ -16,20 +16,42 @@ test: &test
         script:
           - hadolint Dockerfile
 
+
+release-dev: &release-dev
+  step:
+    name: Release development version
+    trigger: manual
+    script:
+      - pip install semversioner
+      - VERSION=$(semversioner current-version).${BITBUCKET_BUILD_NUMBER}-dev
+      - pipe: docker://bitbucketpipelines/bitbucket-pipe-release:3.2.2
+        variables:
+          DOCKERHUB_USERNAME: $DOCKERHUB_USERNAME
+          DOCKERHUB_PASSWORD: $DOCKERHUB_PASSWORD
+          IMAGE: bitbucketpipelines/$BITBUCKET_REPO_SLUG
+          GIT_PUSH: 'false'
+          VERSION: ${VERSION}
+    services:
+      - docker
+
+
 push: &push
   step:
     name: Push and Tag
     script:
-    - pip install semversioner==0.6.16
-    - ./ci-scripts/bump-version.sh
-    - ./ci-scripts/docker-release.sh bitbucketpipelines/$BITBUCKET_REPO_SLUG
-    - ./ci-scripts/git-push.sh
+    - pipe: docker://bitbucketpipelines/bitbucket-pipe-release:3.2.2
+      variables:
+        DOCKERHUB_USERNAME: $DOCKERHUB_USERNAME
+        DOCKERHUB_PASSWORD: $DOCKERHUB_PASSWORD
+        IMAGE: bitbucketpipelines/$BITBUCKET_REPO_SLUG
     services:
-    - docker
+      - docker
+
 
 pipelines:
   default:
   - <<: *test
+  - <<: *release-dev
   branches:
     master:
     - <<: *test
