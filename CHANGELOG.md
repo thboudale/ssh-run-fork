@@ -1,6 +1,10 @@
 # Changelog
 Note: version releases in the 0.x.y range may introduce breaking changes.
 
+## 0.2.7
+
+- patch: Internal maintenance: add bitbucket-pipe-release.
+
 ## 0.2.6
 
 - patch: Internal maintenance: change pipe metadata according to new structure

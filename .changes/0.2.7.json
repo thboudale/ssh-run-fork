@@ -1,0 +1,6 @@
+[
+  {
+    "description": "Internal maintenance: add bitbucket-pipe-release.",
+    "type": "patch"
+  }
+]
