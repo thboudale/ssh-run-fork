@@ -1,0 +1,6 @@
+[
+  {
+    "description": "Fix support for EXTRA_ARGS variable in the command mode.",
+    "type": "patch"
+  }
+]

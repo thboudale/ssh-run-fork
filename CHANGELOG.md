@@ -1,6 +1,10 @@
 # Changelog
 Note: version releases in the 0.x.y range may introduce breaking changes.
 
+## 0.2.8
+
+- patch: Fix support for EXTRA_ARGS variable in the command mode.
+
 ## 0.2.7
 
 - patch: Internal maintenance: add bitbucket-pipe-release.
