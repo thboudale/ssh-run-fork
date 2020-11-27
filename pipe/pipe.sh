@@ -9,6 +9,7 @@
 #
 # Optional globals:
 #   EXTRA_ARGS
+#   ENV_VARS
 #   DEBUG (default: "false")
 #   MODE (default: "command")
 #   SSH_KEY (default: null)
@@ -68,7 +69,7 @@ run_pipe() {
     run ssh -A -tt -i ~/.ssh/pipelines_id -o 'StrictHostKeyChecking=no' -p ${PORT:-22} ${EXTRA_ARGS} $SSH_USER@$SERVER "$COMMAND" 
   elif [[ ${MODE} = "script" ]]; then
     info "Executing script ${COMMAND} on ${SERVER}"
-    run ssh -i ~/.ssh/pipelines_id -o 'StrictHostKeyChecking=no' -p ${PORT:-22} ${EXTRA_ARGS} $SSH_USER@$SERVER 'bash -s' < "$COMMAND"
+    run ssh -i ~/.ssh/pipelines_id -o 'StrictHostKeyChecking=no' -p ${PORT:-22} ${EXTRA_ARGS} $SSH_USER@$SERVER ${ENV_VARS} 'bash -s' < "$COMMAND"
   else
     fail "Invalid MODE ${MODE}, valid values are: command, script."
   fi
