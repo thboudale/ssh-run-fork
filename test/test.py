@@ -94,14 +94,14 @@ class SshRunPrivateKeyTestCase(PipeTestCase):
             'SERVER': contiainer_ip,
             'SSH_KEY': base64.b64encode(identity_content),
             'COMMAND': 'test_script.sh',
-            'ENV_VARS': 'ENV_VAR="123"',
+            'ENV_VARS': 'ENV_VAR="pipeline"',
             'MODE': 'script'
         },
             volumes={cwd: {'bind': cwd, 'mode': 'rw'},
                      self.ssh_config_dir: {'bind': self.ssh_config_dir, 'mode': 'rw'}},
             working_dir=cwd)
         self.assertIn(
-            f'Script {self.ssh_key_file_container.short_id} from pipeline', result.decode())
+            f'Script {self.ssh_key_file_container.id} from pipeline', result.decode())
 
     def test_success_default_mode(self):
         cwd = os.getcwd()
@@ -121,6 +121,6 @@ class SshRunPrivateKeyTestCase(PipeTestCase):
                      self.ssh_config_dir: {'bind': self.ssh_config_dir, 'mode': 'rw'}},
             working_dir=cwd)
         self.assertIn(
-            f'Hello {self.ssh_key_file_container.short_id} from pipeline', result.decode())
+            f'Hello {self.ssh_key_file_container.id} from pipeline', result.decode())
 
 
