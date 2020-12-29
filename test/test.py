@@ -84,7 +84,7 @@ class SshRunPrivateKeyTestCase(PipeTestCase):
         contiainer_ip = self.api_client.inspect_container(self.ssh_key_file_container.id)['NetworkSettings']['IPAddress']
 
         with open('test_script.sh', 'w') as f:
-            f.write('echo Script from $ENV_VAR $HOSTNAME')
+            f.write('echo Script from $ENV_VAR $(hostname)')
 
         with open(os.path.join(os.path.dirname(__file__), 'identity'), 'rb') as identity_file:
             identity_content = identity_file.read()
