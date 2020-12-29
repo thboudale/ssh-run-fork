@@ -101,7 +101,7 @@ class SshRunPrivateKeyTestCase(PipeTestCase):
                      self.ssh_config_dir: {'bind': self.ssh_config_dir, 'mode': 'rw'}},
             working_dir=cwd)
         self.assertIn(
-            f'Script {self.ssh_key_file_container.short_id} 123', result.decode())
+            f'Script {self.ssh_key_file_container.short_id} from pipeline', result.decode())
 
     def test_success_default_mode(self):
         cwd = os.getcwd()
@@ -121,6 +121,6 @@ class SshRunPrivateKeyTestCase(PipeTestCase):
                      self.ssh_config_dir: {'bind': self.ssh_config_dir, 'mode': 'rw'}},
             working_dir=cwd)
         self.assertIn(
-            f'Hello {self.ssh_key_file_container.short_id} pipeline', result.decode())
+            f'Hello {self.ssh_key_file_container.short_id} from pipeline', result.decode())
 
 
