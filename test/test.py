@@ -84,7 +84,7 @@ class SshRunPrivateKeyTestCase(PipeTestCase):
         contiainer_ip = self.api_client.inspect_container(self.ssh_key_file_container.id)['NetworkSettings']['IPAddress']
 
         with open('test_script.sh', 'w') as f:
-            f.write('echo Script $HOSTNAME $ENV_VAR')
+            f.write('echo Script from $ENV_VAR $HOSTNAME')
 
         with open(os.path.join(os.path.dirname(__file__), 'identity'), 'rb') as identity_file:
             identity_content = identity_file.read()
@@ -115,7 +115,7 @@ class SshRunPrivateKeyTestCase(PipeTestCase):
             'SERVER': contiainer_ip,
             'SSH_KEY': base64.b64encode(identity_content),
             'ENV_VARS': 'ENV_VAR="pipeline"',
-            'COMMAND': 'echo Hello $(hostname) from $ENV_VAR',
+            'COMMAND': 'echo Hello from $ENV_VAR $(hostname)',
         },
             volumes={cwd: {'bind': cwd, 'mode': 'rw'},
                      self.ssh_config_dir: {'bind': self.ssh_config_dir, 'mode': 'rw'}},
