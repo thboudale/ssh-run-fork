@@ -66,7 +66,7 @@ setup_ssh_dir() {
 run_pipe() {
   if [[ ${MODE} = "command" ]]; then
     info "Executing ${MODE} on ${SERVER}"
-    run ssh -A -tt -i ~/.ssh/pipelines_id -o 'StrictHostKeyChecking=no' -p ${PORT:-22} ${EXTRA_ARGS} $SSH_USER@$SERVER ${ENV_VARS} "$COMMAND" 
+    run ssh -A -tt -i ~/.ssh/pipelines_id -o 'StrictHostKeyChecking=no' -p ${PORT:-22} ${EXTRA_ARGS} $SSH_USER@$SERVER ${ENV_VARS} 'bash -s' <<< "$COMMAND" 
   elif [[ ${MODE} = "script" ]]; then
     info "Executing script ${COMMAND} on ${SERVER}"
     run ssh -i ~/.ssh/pipelines_id -o 'StrictHostKeyChecking=no' -p ${PORT:-22} ${EXTRA_ARGS} $SSH_USER@$SERVER ${ENV_VARS} 'bash -s' < "$COMMAND"
