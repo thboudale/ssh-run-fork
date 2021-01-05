@@ -1,6 +1,10 @@
 # Changelog
 Note: version releases in the 0.x.y range may introduce breaking changes.
 
+## 0.3.0
+
+- minor: Add support for ENV_VARS variable.
+
 ## 0.2.8
 
 - patch: Fix support for EXTRA_ARGS variable in the command mode.

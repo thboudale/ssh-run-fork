@@ -1,0 +1,6 @@
+[
+  {
+    "description": "Add support for ENV_VARS variable.",
+    "type": "minor"
+  }
+]
