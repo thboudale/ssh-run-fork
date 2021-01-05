@@ -84,7 +84,7 @@ class SshRunPrivateKeyTestCase(PipeTestCase):
         contiainer_ip = self.api_client.inspect_container(self.ssh_key_file_container.id)['NetworkSettings']['IPAddress']
 
         with open('test_script.sh', 'w') as f:
-            f.write('echo Script $HOSTNAME')
+            f.write('echo Script from $ENV_VAR $(hostname)')
 
         with open(os.path.join(os.path.dirname(__file__), 'identity'), 'rb') as identity_file:
             identity_content = identity_file.read()
@@ -94,13 +94,14 @@ class SshRunPrivateKeyTestCase(PipeTestCase):
             'SERVER': contiainer_ip,
             'SSH_KEY': base64.b64encode(identity_content),
             'COMMAND': 'test_script.sh',
+            'ENV_VARS': 'ENV_VAR="pipeline"',
             'MODE': 'script'
         },
             volumes={cwd: {'bind': cwd, 'mode': 'rw'},
                      self.ssh_config_dir: {'bind': self.ssh_config_dir, 'mode': 'rw'}},
             working_dir=cwd)
         self.assertIn(
-            f'Script {self.ssh_key_file_container.short_id}', result.decode())
+            f'Script from pipeline {self.ssh_key_file_container.short_id}', result.decode())
 
     def test_success_default_mode(self):
         cwd = os.getcwd()
@@ -113,12 +114,13 @@ class SshRunPrivateKeyTestCase(PipeTestCase):
             'SSH_USER': 'root',
             'SERVER': contiainer_ip,
             'SSH_KEY': base64.b64encode(identity_content),
-            'COMMAND': 'echo Hello $(hostname)',
+            'ENV_VARS': 'ENV_VAR="pipeline"',
+            'COMMAND': 'echo Hello from $ENV_VAR $(hostname)',
         },
             volumes={cwd: {'bind': cwd, 'mode': 'rw'},
                      self.ssh_config_dir: {'bind': self.ssh_config_dir, 'mode': 'rw'}},
             working_dir=cwd)
         self.assertIn(
-            f'Hello {self.ssh_key_file_container.short_id}', result.decode())
+            f'Hello from pipeline {self.ssh_key_file_container.short_id}', result.decode())
 
 
