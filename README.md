@@ -30,7 +30,7 @@ Add the following snippet to the script section of your `bitbucket-pipelines.yml
 | MODE                  | Mode of execution. This can be either bash `command` or a bash `script`. If set to `script`, the pipe will execute a script from your repository on the remote host. Default: `command`.|
 | PORT                  | Port sshd is listening on. Default: `22`. |
 | SSH_KEY               | An base64 encoded alternate SSH_KEY to use instead of the key configured in the Bitbucket Pipelines admin screens (which is used by default). This should be encoded as per the instructions given in the docs for [using multiple ssh keys](https://confluence.atlassian.com/bitbucket/use-ssh-keys-in-bitbucket-pipelines-847452940.html#UseSSHkeysinBitbucketPipelines-multiple_keys). |
-| EXTRA_ARGS            | Additional arguments passed to the scp command (see [SSH docs](https://linux.die.net/man/1/ssh) for more details). |
+| EXTRA_ARGS            | Additional arguments passed to the ssh command (see [SSH docs](https://linux.die.net/man/1/ssh) for more details). |
 | ENV_VARS              | Variables and values passed to a remote server as environment variables. |
 | DEBUG                 | Enable extra debugging.|
 
@@ -39,7 +39,7 @@ _(*) = required variable._
 ## Prerequisites
 
 * If you want to use the default behaviour for using the configured SSH key and known hosts file, you must have configured 
-  the SSH private key and known_hosts to be used for the This pipe in your Pipelines settings
+  the SSH private key and known_hosts to be used for this pipe in your Pipelines settings
   (see [docs](https://confluence.atlassian.com/bitbucket/use-ssh-keys-in-bitbucket-pipelines-847452940.html))
 
 ## Examples
