@@ -69,6 +69,32 @@ script:
       COMMAND: 'myscript.sh' # path to a script in your repository
 ```
 
+The following example shows EXTRA_ARGS variable usage. You can pass EXTRA_ARGS in two ways that are described below:
+
+```yaml
+script:
+  - pipe: atlassian/ssh-run:0.3.0
+    variables:
+      SSH_USER: 'ec2-user'
+      SERVER: '127.0.0.1'
+      MODE: 'script'
+      COMMAND: 'myscript.sh' # path to a script in your repository
+      EXTRA_ARGS: 
+      - '-o ControlMaster=auto'
+```
+
+```yaml
+script:
+  - pipe: atlassian/ssh-run:0.3.0
+    variables:
+      SSH_USER: 'ec2-user'
+      SERVER: '127.0.0.1'
+      MODE: 'script'
+      COMMAND: 'myscript.sh' # path to a script in your repository
+      EXTRA_ARGS: '-o ControlMaster=auto'
+```
+
+
 The following example shows how to execute a bash script that is already on your remote server:
 
 ```yaml

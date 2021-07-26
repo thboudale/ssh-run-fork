@@ -7,7 +7,7 @@ test: &test
         name: Test
         script:
         - pip install -r test/requirements.txt
-        - pytest test/test.py --junitxml=test-reports/report.xml -v -s
+        - pytest test/test.py --verbose --capture=no -p no:cacheprovider
         services:
         - docker
     - step:
@@ -20,11 +20,12 @@ test: &test
 release-dev: &release-dev
   step:
     name: Release development version
+    image: python:3.7
     trigger: manual
     script:
       - pip install semversioner
       - VERSION=$(semversioner current-version).${BITBUCKET_BUILD_NUMBER}-dev
-      - pipe: docker://bitbucketpipelines/bitbucket-pipe-release:3.2.2
+      - pipe: atlassian/bitbucket-pipe-release:4.0.1
         variables:
           DOCKERHUB_USERNAME: $DOCKERHUB_USERNAME
           DOCKERHUB_PASSWORD: $DOCKERHUB_PASSWORD
@@ -38,14 +39,15 @@ release-dev: &release-dev
 push: &push
   step:
     name: Push and Tag
+    image: python:3.7
     script:
-    - pipe: docker://bitbucketpipelines/bitbucket-pipe-release:3.2.2
+    - pipe: atlassian/bitbucket-pipe-release:4.0.1
       variables:
         DOCKERHUB_USERNAME: $DOCKERHUB_USERNAME
         DOCKERHUB_PASSWORD: $DOCKERHUB_PASSWORD
         IMAGE: bitbucketpipelines/$BITBUCKET_REPO_SLUG
-    services:
-      - docker
+  services:
+    - docker
 
 
 pipelines:
