@@ -17,7 +17,7 @@ Add the following snippet to the script section of your `bitbucket-pipelines.yml
     SSH_KEY: '<string>' # Optional
     EXTRA_ARGS: '<string>' # Optional
     ENV_VARS: '<string>' # Optional
-    DEBUG: '<string>' # Optional
+    DEBUG: '<boolean>' # Optional
 ```
 
 ## Variables
@@ -32,7 +32,7 @@ Add the following snippet to the script section of your `bitbucket-pipelines.yml
 | SSH_KEY               | An base64 encoded alternate SSH_KEY to use instead of the key configured in the Bitbucket Pipelines admin screens (which is used by default). This should be encoded as per the instructions given in the docs for [using multiple ssh keys](https://confluence.atlassian.com/bitbucket/use-ssh-keys-in-bitbucket-pipelines-847452940.html#UseSSHkeysinBitbucketPipelines-multiple_keys). |
 | EXTRA_ARGS            | Additional arguments passed to the ssh command (see [SSH docs](https://linux.die.net/man/1/ssh) for more details). |
 | ENV_VARS              | Variables and values passed to a remote server as environment variables. |
-| DEBUG                 | Enable extra debugging.|
+| DEBUG                 | Turn on extra debug information. Default: `false`.|
 
 _(*) = required variable._
 
