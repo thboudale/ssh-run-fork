@@ -1,6 +1,10 @@
 # Changelog
 Note: version releases in the 0.x.y range may introduce breaking changes.
 
+## 0.4.0
+
+- minor: Updated information about DEBUG attribute.
+
 ## 0.3.1
 
 - patch: Update README: add EXTRA_ARGS usage examples.
