@@ -1,15 +1,11 @@
-from bitbucket_pipes_toolkit.test import PipeTestCase
 import os
-import subprocess
-import uuid
-import tarfile
-import re
 import base64
+import subprocess
 from time import sleep
-
-import pytest
 from docker.errors import ContainerError
-import docker
+
+from bitbucket_pipes_toolkit.test import PipeTestCase
+
 
 class SshRunPrivateKeyTestCase(PipeTestCase):
 
@@ -38,7 +34,7 @@ class SshRunPrivateKeyTestCase(PipeTestCase):
         self.ssh_key_file_container = self.docker_client.containers.run(
             self.test_image_name, detach=True)
 
-        # wait untill sshd is up
+        # wait until sshd is up
         for i in range(10):
             if b'listening' in self.ssh_key_file_container.logs():
                 break
@@ -56,14 +52,14 @@ class SshRunPrivateKeyTestCase(PipeTestCase):
 
     def test_default_success(self):
         cwd = os.getcwd()
-        contiainer_ip = self.api_client.inspect_container(self.ssh_key_file_container.id)['NetworkSettings']['IPAddress']
+        container_ip = self.api_client.inspect_container(self.ssh_key_file_container.id)['NetworkSettings']['IPAddress']
 
         with open(os.path.join(os.path.dirname(__file__), self.ssh_key_file), 'rb') as identity_file:
             identity_content = identity_file.read()
         try:
             result = self.run_container(environment={
                 'SSH_USER': 'root',
-                'SERVER': contiainer_ip,
+                'SERVER': container_ip,
                 'SSH_KEY': base64.b64encode(identity_content),
                 'COMMAND': 'echo Hello $(hostname)',
                 'MODE': 'command'
@@ -112,7 +108,7 @@ class SshRunPrivateKeyTestCase(PipeTestCase):
 
     def test_success_script(self):
         cwd = os.getcwd()
-        contiainer_ip = self.api_client.inspect_container(self.ssh_key_file_container.id)['NetworkSettings']['IPAddress']
+        container_ip = self.api_client.inspect_container(self.ssh_key_file_container.id)['NetworkSettings']['IPAddress']
 
         with open('test_script.sh', 'w') as f:
             f.write('echo Script from $ENV_VAR $(hostname)')
@@ -122,7 +118,7 @@ class SshRunPrivateKeyTestCase(PipeTestCase):
 
         result = self.run_container(environment={
             'SSH_USER': 'root',
-            'SERVER': contiainer_ip,
+            'SERVER': container_ip,
             'SSH_KEY': base64.b64encode(identity_content),
             'COMMAND': 'test_script.sh',
             'ENV_VARS': 'ENV_VAR="pipeline"',
@@ -135,14 +131,14 @@ class SshRunPrivateKeyTestCase(PipeTestCase):
 
     def test_success_default_mode(self):
         cwd = os.getcwd()
-        contiainer_ip = self.api_client.inspect_container(self.ssh_key_file_container.id)['NetworkSettings']['IPAddress']
+        container_ip = self.api_client.inspect_container(self.ssh_key_file_container.id)['NetworkSettings']['IPAddress']
 
         with open(os.path.join(os.path.dirname(__file__), 'identity'), 'rb') as identity_file:
             identity_content = identity_file.read()
 
         result = self.run_container(environment={
             'SSH_USER': 'root',
-            'SERVER': contiainer_ip,
+            'SERVER': container_ip,
             'SSH_KEY': base64.b64encode(identity_content),
             'ENV_VARS': 'ENV_VAR="pipeline"',
             'COMMAND': 'echo Hello from $ENV_VAR $(hostname)',
@@ -152,4 +148,90 @@ class SshRunPrivateKeyTestCase(PipeTestCase):
         self.assertIn(
             f'Hello from pipeline {self.ssh_key_file_container.short_id}', result)
 
+    def test_success_script_by_last_command(self):
+        cwd = os.getcwd()
+        container_ip = self.api_client.inspect_container(self.ssh_key_file_container.id)['NetworkSettings']['IPAddress']
 
+        with open('test_script.sh', 'w') as f:
+            f.write('cat non_existent_file; echo $?')
+
+        with open(os.path.join(os.path.dirname(__file__), 'identity'), 'rb') as identity_file:
+            identity_content = identity_file.read()
+
+            result = self.run_container(
+                environment={
+                    'SSH_USER': 'root',
+                    'SERVER': container_ip,
+                    'SSH_KEY': base64.b64encode(identity_content),
+                    'COMMAND': 'test_script.sh',
+                    'MODE': 'script',
+                    'DEBUG': 'true'
+                },
+                volumes={
+                    cwd: {'bind': cwd, 'mode': 'rw'},
+                    self.ssh_config_dir: {'bind': self.ssh_config_dir, 'mode': 'rw'}
+                }
+            )
+            self.assertIn("No such file or directory", result)
+            self.assertIn("Execution finished.", result)
+
+    def test_fail_script(self):
+        cwd = os.getcwd()
+        container_ip = self.api_client.inspect_container(self.ssh_key_file_container.id)['NetworkSettings']['IPAddress']
+
+        with open('test_script.sh', 'w') as f:
+            f.write('cat non_existent_file')
+
+        with open(os.path.join(os.path.dirname(__file__), 'identity'), 'rb') as identity_file:
+            identity_content = identity_file.read()
+
+            result = self.run_container(
+                environment={
+                    'SSH_USER': 'root',
+                    'SERVER': container_ip,
+                    'SSH_KEY': base64.b64encode(identity_content),
+                    'COMMAND': 'test_script.sh',
+                    'MODE': 'script',
+                    'DEBUG': 'true'
+                },
+                volumes={
+                    cwd: {'bind': cwd, 'mode': 'rw'},
+                    self.ssh_config_dir: {'bind': self.ssh_config_dir, 'mode': 'rw'}
+                }
+            )
+            self.assertIn("No such file or directory", result)
+            self.assertIn("Execution failed.", result)
+
+    def test_fail_script_complex(self):
+        cwd = os.getcwd()
+        container_ip = self.api_client.inspect_container(self.ssh_key_file_container.id)['NetworkSettings']['IPAddress']
+
+        with open('test_script.sh', 'w') as f:
+            f.write('''
+            cat non_existent_file;
+            if [ $? -ne 0 ]; then
+            exit 1
+            fi
+
+            echo $?
+            ''')
+
+        with open(os.path.join(os.path.dirname(__file__), 'identity'), 'rb') as identity_file:
+            identity_content = identity_file.read()
+
+            result = self.run_container(
+                environment={
+                    'SSH_USER': 'root',
+                    'SERVER': container_ip,
+                    'SSH_KEY': base64.b64encode(identity_content),
+                    'COMMAND': 'test_script.sh',
+                    'MODE': 'script',
+                    'DEBUG': 'true'
+                },
+                volumes={
+                    cwd: {'bind': cwd, 'mode': 'rw'},
+                    self.ssh_config_dir: {'bind': self.ssh_config_dir, 'mode': 'rw'}
+                }
+            )
+            self.assertIn("No such file or directory", result)
+            self.assertIn("Execution failed.", result)

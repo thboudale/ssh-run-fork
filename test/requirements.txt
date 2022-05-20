@@ -1,4 +1,4 @@
-pytest 
-docker[tls] 
+pytest==6.*
+docker[tls]==4.4.*
 
-bitbucket_pipes_toolkit==2.2.0
+bitbucket_pipes_toolkit==3.2.1
