@@ -1,6 +1,13 @@
 # Changelog
 Note: version releases in the 0.x.y range may introduce breaking changes.
 
+## 0.4.1
+
+- patch: Internal maintenance: update community link.
+- patch: Internal maintenance: update dependencies in test/requirements.
+- patch: Internal maintenance: update tests to provide more coverage.
+- patch: Internal maintenance: update the version of the bitbucket-pipe-release pipe.
+
 ## 0.4.0
 
 - minor: Updated information about DEBUG attribute.
@@ -68,4 +75,3 @@ Note: version releases in the 0.x.y range may introduce breaking changes.
 ## 0.1.0
 
 - minor: Initial release
-

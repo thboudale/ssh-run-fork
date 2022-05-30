@@ -1,0 +1,18 @@
+[
+  {
+    "description": "Internal maintenance: update community link.",
+    "type": "patch"
+  },
+  {
+    "description": "Internal maintenance: update dependencies in test/requirements.",
+    "type": "patch"
+  },
+  {
+    "description": "Internal maintenance: update tests to provide more coverage.",
+    "type": "patch"
+  },
+  {
+    "description": "Internal maintenance: update the version of the bitbucket-pipe-release pipe.",
+    "type": "patch"
+  }
+]
