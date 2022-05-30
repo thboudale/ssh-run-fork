@@ -25,7 +25,7 @@ release-dev: &release-dev
     script:
       - pip install semversioner
       - VERSION=$(semversioner current-version).${BITBUCKET_BUILD_NUMBER}-dev
-      - pipe: atlassian/bitbucket-pipe-release:4.0.1
+      - pipe: atlassian/bitbucket-pipe-release:4.2.0
         variables:
           DOCKERHUB_USERNAME: $DOCKERHUB_USERNAME
           DOCKERHUB_PASSWORD: $DOCKERHUB_PASSWORD
@@ -41,7 +41,7 @@ push: &push
     name: Push and Tag
     image: python:3.7
     script:
-    - pipe: atlassian/bitbucket-pipe-release:4.0.1
+    - pipe: atlassian/bitbucket-pipe-release:4.2.0
       variables:
         DOCKERHUB_USERNAME: $DOCKERHUB_USERNAME
         DOCKERHUB_PASSWORD: $DOCKERHUB_PASSWORD
