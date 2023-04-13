@@ -1,5 +1,6 @@
 image:
-  name: python:3.7
+  name: python:3.10
+
 
 test: &test
   parallel:
@@ -7,6 +8,7 @@ test: &test
         name: Test
         script:
         - pip install -r test/requirements.txt
+        - flake8 --ignore E501,E125
         - pytest test/test.py --verbose --capture=no -p no:cacheprovider
         services:
         - docker
@@ -15,21 +17,28 @@ test: &test
         image: hadolint/hadolint:latest-debian
         script:
           - hadolint Dockerfile
+    - step:
+        name: Security Scan
+        script:
+          # Run a security scan for sensitive data.
+          # See more security tools at https://bitbucket.org/product/features/pipelines/integrations?&category=security
+          - pipe: atlassian/git-secrets-scan:1.2.1
 
 
 release-dev: &release-dev
   step:
     name: Release development version
-    image: python:3.7
     trigger: manual
+    image: python:3.10
     script:
       - pip install semversioner
       - VERSION=$(semversioner current-version).${BITBUCKET_BUILD_NUMBER}-dev
-      - pipe: atlassian/bitbucket-pipe-release:4.2.0
+      - pipe: atlassian/bitbucket-pipe-release:5.3.1
         variables:
-          DOCKERHUB_USERNAME: $DOCKERHUB_USERNAME
-          DOCKERHUB_PASSWORD: $DOCKERHUB_PASSWORD
-          IMAGE: bitbucketpipelines/$BITBUCKET_REPO_SLUG
+          REGISTRY_USERNAME: $REGISTRY_USERNAME
+          REGISTRY_PASSWORD: $REGISTRY_PASSWORD
+          IMAGE: docker-public.packages.atlassian.com/bitbucketpipelines/$BITBUCKET_REPO_SLUG
+          REGISTRY_URL: docker-public.packages.atlassian.com
           GIT_PUSH: 'false'
           VERSION: ${VERSION}
     services:
@@ -39,15 +48,15 @@ release-dev: &release-dev
 push: &push
   step:
     name: Push and Tag
-    image: python:3.7
     script:
-    - pipe: atlassian/bitbucket-pipe-release:4.2.0
-      variables:
-        DOCKERHUB_USERNAME: $DOCKERHUB_USERNAME
-        DOCKERHUB_PASSWORD: $DOCKERHUB_PASSWORD
-        IMAGE: bitbucketpipelines/$BITBUCKET_REPO_SLUG
-  services:
-    - docker
+      - pipe: atlassian/bitbucket-pipe-release:5.3.1
+        variables:
+          REGISTRY_USERNAME: $REGISTRY_USERNAME
+          REGISTRY_PASSWORD: $REGISTRY_PASSWORD
+          IMAGE: docker-public.packages.atlassian.com/bitbucketpipelines/$BITBUCKET_REPO_SLUG
+          REGISTRY_URL: docker-public.packages.atlassian.com
+    services:
+      - docker
 
 
 pipelines:
