@@ -7,7 +7,7 @@ Run a command or a bash script on your server
 Add the following snippet to the script section of your `bitbucket-pipelines.yml` file:
 
 ```yaml
-- pipe: atlassian/ssh-run:0.4.1
+- pipe: atlassian/ssh-run:0.4.2
   variables:
     SSH_USER: '<string>'
     SERVER: '<string>'
@@ -46,7 +46,7 @@ _(*) = required variable._
 
 ```yaml
 script:
-  - pipe: atlassian/ssh-run:0.4.1
+  - pipe: atlassian/ssh-run:0.4.2
     variables:
       SSH_USER: 'ec2-user'
       SERVER: '127.0.0.1'
@@ -58,7 +58,7 @@ Using a different SSH_KEY and executing a bash script from your repo on a remote
 
 ```yaml
 script:
-  - pipe: atlassian/ssh-run:0.4.1
+  - pipe: atlassian/ssh-run:0.4.2
     variables:
       SSH_USER: 'ec2-user'
       SERVER: '127.0.0.1'
@@ -71,7 +71,7 @@ The following example shows EXTRA_ARGS variable usage. You can pass EXTRA_ARGS i
 
 ```yaml
 script:
-  - pipe: atlassian/ssh-run:0.4.1
+  - pipe: atlassian/ssh-run:0.4.2
     variables:
       SSH_USER: 'ec2-user'
       SERVER: '127.0.0.1'
@@ -83,7 +83,7 @@ script:
 
 ```yaml
 script:
-  - pipe: atlassian/ssh-run:0.4.1
+  - pipe: atlassian/ssh-run:0.4.2
     variables:
       SSH_USER: 'ec2-user'
       SERVER: '127.0.0.1'
@@ -97,7 +97,7 @@ The following example shows how to execute a bash script that is already on your
 
 ```yaml
 script:
-  - pipe: atlassian/ssh-run:0.4.1
+  - pipe: atlassian/ssh-run:0.4.2
     variables:
       SSH_USER: 'ec2-user'
       SERVER: '127.0.0.1'
@@ -109,7 +109,7 @@ Passing your local environment variable `$LOCALVAR` to the remote server and exe
 
 ```yaml
 script:
-  - pipe: atlassian/ssh-run:0.4.1
+  - pipe: atlassian/ssh-run:0.4.2
     variables:
       SSH_USER: 'ec2-user'
       SERVER: '127.0.0.1'
@@ -123,7 +123,7 @@ Invocating your local environment variables to the script with [*envsubst*][envs
 script:
   - envsubst < .contrib/deploy.sh > deploy-out.sh
 
-  - pipe: atlassian/ssh-run:0.4.1
+  - pipe: atlassian/ssh-run:0.4.2
     variables:
       SSH_USER: 'ec2-user'
       SERVER: '127.0.0.1'

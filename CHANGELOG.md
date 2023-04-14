@@ -1,6 +1,12 @@
 # Changelog
 Note: version releases in the 0.x.y range may introduce breaking changes.
 
+## 0.4.2
+
+- patch: Internal maintenance: Bump version of the bitbucket-pipe-release.
+- patch: Internal maintenance: Bump version of the pipe's dependencies.
+- patch: Internal maintenance: Update the README.
+
 ## 0.4.1
 
 - patch: Internal maintenance: update community link.
