@@ -23,7 +23,7 @@ class SshRunPrivateKeyTestCase(PipeTestCase):
     def setUpClass(cls):
         super().setUpClass()
         dirname = os.path.dirname(__file__)
-        result = subprocess.run(['ssh-keygen', '-f', os.path.join(
+        subprocess.run(['ssh-keygen', '-f', os.path.join(
             dirname, cls.ssh_key_file), '-N', ''], check=False, text=True, capture_output=True)
         cls.private_key_image = cls.docker_client.images.build(
             path=dirname, dockerfile=os.path.join(dirname, 'Dockerfile'), tag=cls.test_image_name)
