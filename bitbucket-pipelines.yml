@@ -4,8 +4,8 @@ image:
 pipelines:
   default:
     - step:
-        clone:
-          depth: full
+        #clone:
+        #  depth: full
         script:
           - git remote add github "git@github.com:thboudale/ssh-run-fork.git"
           - git checkout $BITBUCKET_BRANCH
